@@ -3,41 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="YaGuy - Your friendly tech companion">
-    <title>YaGuy - Welcome</title>
+    <meta name="description" content="YaGuy - Your friendly tech companion with modern design and innovative features">
+    <meta name="theme-color" content="#667eea">
+    <title>YaGuy - Your Friendly Tech Companion</title>
+    
+    <!-- Google Fonts - Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    
     <style>
+        /* CSS Variables for Theme Management */
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --text-tertiary: #718096;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.18);
+        }
+
+        /* Dark Mode Theme */
+        [data-theme="dark"] {
+            --bg-primary: #1a202c;
+            --bg-secondary: #2d3748;
+            --text-primary: #f7fafc;
+            --text-secondary: #e2e8f0;
+            --text-tertiary: #cbd5e0;
+            --border-color: #4a5568;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
+            --glass-bg: rgba(26, 32, 44, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            transition: background 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        /* Animated Gradient Mesh Background */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        [data-theme="dark"] .background-animation {
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #4a5568 100%);
+            background-size: 400% 400%;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Navigation Bar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1rem 2rem;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-toggle svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .mobile-menu-toggle svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        /* Hero Section */
+        .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 800px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 60px 40px;
+            padding: 8rem 2rem 4rem;
             text-align: center;
-            animation: fadeIn 0.8s ease-in;
         }
 
-        @keyframes fadeIn {
+        .hero-content {
+            max-width: 900px;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -45,163 +227,692 @@
             }
         }
 
-        .logo {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            animation: wave 2s ease-in-out infinite;
+        .hero-badge {
             display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            animation: float 3s ease-in-out infinite;
         }
 
-        @keyframes wave {
-            0%, 100% {
-                transform: rotate(0deg);
-            }
-            25% {
-                transform: rotate(10deg);
-            }
-            75% {
-                transform: rotate(-10deg);
-            }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        h1 {
-            font-size: 3rem;
-            color: #667eea;
-            margin-bottom: 20px;
-            font-weight: 700;
+        .hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
         }
 
-        .tagline {
+        .hero-tagline {
             font-size: 1.5rem;
-            color: #666;
-            margin-bottom: 40px;
-            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-weight: 400;
         }
 
-        .description {
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
             font-size: 1.1rem;
-            color: #555;
-            margin-bottom: 40px;
-            line-height: 1.8;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 15px 40px;
-            font-size: 1.2rem;
-            color: white;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
+            font-weight: 600;
             border-radius: 50px;
             text-decoration: none;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
             cursor: pointer;
-            font-weight: 600;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: var(--shadow-md);
         }
 
-        .features {
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            color: var(--text-primary);
+            border: 2px solid var(--glass-border);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-color);
+        }
+
+        /* Features Section */
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        /* Glassmorphism Cards */
+        .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-top: 60px;
-            text-align: left;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
-        .feature {
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            transition: transform 0.3s ease;
+        .feature-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: var(--shadow-sm);
         }
 
-        .feature:hover {
-            transform: translateY(-5px);
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
         }
 
         .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: rotate(5deg) scale(1.1);
+        }
+
+        .feature-icon svg {
+            width: 30px;
+            height: 30px;
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Stats Section with Animated Counters */
+        .stats {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            margin: 4rem 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            animation: fadeIn 1s ease;
+        }
+
+        .stat-number {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Newsletter Section */
+        .newsletter {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 20px;
+            padding: 4rem 3rem;
+            text-align: center;
+            color: white;
+            margin: 4rem 0;
+        }
+
+        .newsletter h2 {
+            font-family: 'Poppins', sans-serif;
             font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-weight: 700;
+            margin-bottom: 1rem;
         }
 
-        .feature h3 {
-            color: #667eea;
-            margin-bottom: 10px;
+        .newsletter p {
             font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
         }
 
-        .feature p {
-            color: #666;
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--text-primary);
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+
+        .newsletter-submit {
+            padding: 1rem 2.5rem;
+            background: white;
+            color: var(--primary-color);
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-submit:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-text {
+            color: var(--text-tertiary);
             font-size: 0.95rem;
         }
 
-        footer {
-            margin-top: 60px;
-            padding-top: 30px;
-            border-top: 1px solid #e0e0e0;
-            color: #999;
-            font-size: 0.9rem;
-        }
-
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .container {
-                padding: 40px 20px;
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: var(--glass-bg);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                border-bottom: 1px solid var(--glass-border);
             }
 
-            h1 {
-                font-size: 2rem;
+            .nav-menu.active {
+                transform: translateX(0);
             }
 
-            .tagline {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-tagline {
                 font-size: 1.2rem;
             }
 
-            .logo {
-                font-size: 3rem;
+            .section-title {
+                font-size: 2rem;
             }
 
-            .features {
-                grid-template-columns: 1fr;
+            .newsletter h2 {
+                font-size: 1.8rem;
             }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Loading Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Smooth Parallax Effect */
+        .parallax {
+            will-change: transform;
+            transition: transform 0.1s ease-out;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">👋</div>
-        <h1>YaGuy</h1>
-        <p class="tagline">Your friendly tech companion</p>
-        <p class="description">
-            Welcome to YaGuy! We're building something awesome. 
-            Stay tuned for exciting updates and innovations coming your way.
-        </p>
-        <a href="#" class="cta-button">Get Started</a>
+    <!-- Animated Gradient Mesh Background -->
+    <div class="background-animation"></div>
 
-        <div class="features">
-            <div class="feature">
-                <div class="feature-icon">🚀</div>
-                <h3>Fast & Efficient</h3>
-                <p>Built with performance in mind for the best user experience.</p>
+    <!-- Navigation Bar with Glassmorphism -->
+    <nav>
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                YaGuy
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#stats" class="nav-link">About</a></li>
+                <li><a href="#newsletter" class="nav-link">Newsletter</a></li>
+                <li>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    </button>
+                </li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero parallax" id="home">
+        <div class="hero-content">
+            <div class="hero-badge">✨ Welcome to the Future</div>
+            <h1>YaGuy</h1>
+            <p class="hero-tagline">Your friendly tech companion for the modern web</p>
+            <div class="hero-buttons">
+                <a href="#features" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    Explore Features
+                </a>
+                <a href="#newsletter" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    Join Newsletter
+                </a>
             </div>
-            <div class="feature">
-                <div class="feature-icon">🎨</div>
-                <h3>Beautiful Design</h3>
-                <p>Clean, modern interface that's a joy to use.</p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <div class="section-header">
+            <h2 class="section-title">Powerful Features</h2>
+            <p class="section-subtitle">Everything you need to succeed in the modern digital world</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                </div>
+                <h3>Lightning Fast</h3>
+                <p>Experience blazing fast performance with optimized code and modern architecture that delivers instant results.</p>
             </div>
-            <div class="feature">
-                <div class="feature-icon">🔒</div>
-                <h3>Secure & Reliable</h3>
-                <p>Your data and privacy are our top priority.</p>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </div>
+                <h3>Secure & Private</h3>
+                <p>Your data is protected with enterprise-grade security and privacy measures that keep you safe online.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                </div>
+                <h3>24/7 Available</h3>
+                <p>Always ready when you need it, with reliable uptime and continuous support for your peace of mind.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                </div>
+                <h3>Responsive Design</h3>
+                <p>Beautiful on every device with adaptive layouts that work perfectly on mobile, tablet, and desktop.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                </div>
+                <h3>Cost Effective</h3>
+                <p>Get premium features without breaking the bank with our transparent and affordable pricing structure.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                </div>
+                <h3>High Performance</h3>
+                <p>Optimized for peak performance with cutting-edge technology that scales with your growing needs.</p>
             </div>
         </div>
 
-        <footer>
-            <p>&copy; 2025 YaGuy. All rights reserved.</p>
-        </footer>
-    </div>
+        <!-- Stats Section -->
+        <div class="stats" id="stats">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" data-target="10000">0</div>
+                    <div class="stat-label">Happy Users</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="99">0</div>
+                    <div class="stat-label">Uptime %</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="50">0</div>
+                    <div class="stat-label">Countries</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="24">0</div>
+                    <div class="stat-label">Support Hours</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="section" id="newsletter">
+        <div class="newsletter">
+            <h2>Stay Updated</h2>
+            <p>Subscribe to our newsletter for the latest updates, tips, and exclusive content</p>
+            <form class="newsletter-form" onsubmit="return handleNewsletter(event)">
+                <input type="email" class="newsletter-input" placeholder="Enter your email" required>
+                <button type="submit" class="newsletter-submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#home" class="footer-link">Home</a>
+                <a href="#features" class="footer-link">Features</a>
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Service</a>
+                <a href="#" class="footer-link">Contact</a>
+            </div>
+            <p class="footer-text">&copy; 2025 YaGuy. All rights reserved. Built with ❤️ for the modern web.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        // Check for saved theme preference or default to 'light'
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', currentTheme);
+        
+        themeToggle.addEventListener('click', () => {
+            const theme = html.getAttribute('data-theme');
+            const newTheme = theme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const navMenu = document.getElementById('navMenu');
+        
+        mobileMenuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Animated Counter for Stats
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-target'));
+            const duration = 2000;
+            const increment = target / (duration / 16);
+            let current = 0;
+            
+            const updateCounter = () => {
+                current += increment;
+                if (current < target) {
+                    element.textContent = Math.floor(current).toLocaleString();
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    element.textContent = target.toLocaleString();
+                }
+            };
+            
+            updateCounter();
+        }
+
+        // Intersection Observer for Counter Animation
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                    entry.target.classList.add('animated');
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach(num => animateCounter(num));
+                }
+            });
+        }, observerOptions);
+
+        const statsSection = document.querySelector('.stats');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+
+        // Smooth Scroll with Offset for Fixed Nav
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 80;
+                    const targetPosition = target.offsetTop - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Parallax Effect for Hero Section
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const parallaxElements = document.querySelectorAll('.parallax');
+                    const scrolled = window.pageYOffset;
+                    parallaxElements.forEach(element => {
+                        const speed = 0.5;
+                        element.style.transform = `translateY(${scrolled * speed}px)`;
+                    });
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // Newsletter Form Handler
+        function handleNewsletter(event) {
+            event.preventDefault();
+            const email = event.target.querySelector('.newsletter-input').value;
+            alert(`Thank you for subscribing! We'll send updates to ${email}`);
+            event.target.reset();
+            return false;
+        }
+
+        // Add fade-in animation to elements on scroll
+        const fadeElements = document.querySelectorAll('.feature-card, .stat-item');
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeElements.forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            fadeObserver.observe(element);
+        });
+    </script>
 </body>
 </html>
