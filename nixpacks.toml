@@ -1,0 +1,9 @@
+[phases.setup]
+nixPkgs = ["nodejs_20", "nginx"]
+cmds = ["mkdir -p /etc/nginx/ /var/log/nginx/ /var/cache/nginx/"]
+
+[phases.build]
+cmds = ["cd backend && npm install && npm run migrate"]
+
+[start]
+cmd = "cd backend && npm start"
