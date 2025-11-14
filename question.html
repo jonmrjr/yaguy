@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="View your Ask YaGuy answer." />
+  <title>Ask YaGuy — Question detail</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">YaGuy</div>
+        <ul>
+          <li><a href="dashboard.html">Back to dashboard</a></li>
+          <li><a href="ask.html">Ask new</a></li>
+          <li><a class="button button-outline" href="#">Logout</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="form-page">
+    <div class="container detail-layout">
+      <section class="detail-card">
+        <div class="status-badge status-answered">Answered</div>
+        <h1>Is our event-driven architecture sane at 1M daily jobs?</h1>
+        <div class="meta-row">
+          <span>Asked: Mar 18, 2025</span>
+          <span>Answered: Mar 19, 2025</span>
+          <span>Urgency: Standard</span>
+        </div>
+        <p>
+          We ingest jobs from multiple partners and push them into a Kafka-based pipeline. We’re about to cross 1M daily jobs and
+          want to know if our current design (Kafka → workers → Postgres) will hold or if we should add another layer.
+        </p>
+        <p class="helper-text">Attachment: <a href="#">architecture-diagram.pdf</a></p>
+      </section>
+
+      <section class="detail-card answer-section">
+        <h2>Answer</h2>
+        <div>
+          <h3>TL;DR</h3>
+          <p>Yes, but you need to segment Kafka topics and enforce idempotency at the worker layer. Also migrate job result writes to a
+            dedicated Postgres logical replica.</p>
+        </div>
+        <div>
+          <h3>Detailed reasoning</h3>
+          <p>Your load profile is CPU-bound on workers, not Kafka. The bottleneck risk is the shared Postgres cluster doing both job
+            tracking and reporting. Split those concerns and you buy 6–9 months of runway.</p>
+        </div>
+        <div>
+          <h3>Concrete steps</h3>
+          <ol>
+            <li>Create separate Kafka topics per partner tier with retention tuned to 48 hours.</li>
+            <li>Enable dedupe keys at the consumer to enforce exactly-once semantics in your workers.</li>
+            <li>Replicate the Postgres job_results table to a read-only analytics replica and point dashboards there.</li>
+          </ol>
+        </div>
+        <div>
+          <h3>Optional snippets</h3>
+          <pre><code>// Example worker idempotency check
+if (hasProcessed(job.id)) {
+  return;
+}
+process(job);
+markProcessed(job.id);
+</code></pre>
+        </div>
+        <p class="helper-text">Need clarification? Reply to the delivery email within 24 hours.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="mailto:hello@yaguy.com">Contact</a>
+      </div>
+      <p>Not financial or legal advice. For informational purposes only.</p>
+    </div>
+  </footer>
+</body>
+</html>

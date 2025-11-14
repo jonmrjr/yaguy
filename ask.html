@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Submit your question to Ask YaGuy and get a senior-level answer with a guaranteed SLA." />
+  <title>Ask YaGuy — Submit your question</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">YaGuy</div>
+        <ul>
+          <li><a href="index.html#how-it-works">How It Works</a></li>
+          <li><a href="index.html#pricing">Pricing</a></li>
+          <li><a href="dashboard.html">Login</a></li>
+          <li><a class="button button-primary" href="ask.html">Ask a Question</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="form-page">
+    <div class="container form-layout">
+      <section class="form-card">
+        <h1>Describe your question</h1>
+        <p class="helper-text">Give context, constraints, and what you’ve already tried so the answer can go straight to the point.</p>
+        <form>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="you@company.com" required />
+          </div>
+          <div class="field">
+            <label for="title">Question title</label>
+            <input id="title" type="text" placeholder="What do you need clarity on?" required />
+          </div>
+          <div class="field">
+            <label for="details">Question details</label>
+            <textarea id="details" placeholder="Give context, constraints, what you’ve tried..." required></textarea>
+          </div>
+          <div class="field">
+            <label for="attachment">Attachment (optional)</label>
+            <input id="attachment" type="file" accept=".pdf,.txt,.md,.png,.jpg,.jpeg,.gif" />
+            <p class="helper-text">Attach anything that helps: diagrams, specs, code snippets.</p>
+          </div>
+          <div class="field">
+            <span>Urgency</span>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="urgency" value="standard" checked />
+                <div>
+                  <strong>Standard (24h answer) — $49</strong>
+                  <p class="helper-text">Structured async answer with a 24-hour SLA.</p>
+                </div>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="urgency" value="urgent" />
+                <div>
+                  <strong>Urgent (6h answer) — $99</strong>
+                  <p class="helper-text">Use this when you need clarity the same day.</p>
+                </div>
+              </label>
+            </div>
+          </div>
+          <button type="submit" class="button button-primary">Continue to Payment</button>
+        </form>
+      </section>
+
+      <aside class="summary-card">
+        <h2>What happens next</h2>
+        <p class="helper-text">Stripe handles the payment. You’ll get an email confirmation once your question is locked.</p>
+        <div class="summary-line">
+          <span>Selected option</span>
+          <span id="selected-option">Standard (24h)</span>
+        </div>
+        <div class="summary-line">
+          <span>Total</span>
+          <strong id="selected-price">$49</strong>
+        </div>
+        <p class="helper-text">Need a call? Async + 20-minute call will be available soon.</p>
+        <p class="helper-text">You can follow up with clarifications within 24 hours of delivery.</p>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="mailto:hello@yaguy.com">Contact</a>
+      </div>
+      <p>Not financial or legal advice. For informational purposes only.</p>
+    </div>
+  </footer>
+
+  <script>
+    const optionOutput = document.getElementById('selected-option');
+    const priceOutput = document.getElementById('selected-price');
+    const radios = document.querySelectorAll('input[name="urgency"]');
+
+    radios.forEach((radio) => {
+      radio.addEventListener('change', (event) => {
+        if (event.target.value === 'urgent') {
+          optionOutput.textContent = 'Urgent (6h)';
+          priceOutput.textContent = '$99';
+        } else {
+          optionOutput.textContent = 'Standard (24h)';
+          priceOutput.textContent = '$49';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

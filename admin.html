@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Admin panel for Ask YaGuy to manage incoming questions." />
+  <title>Ask YaGuy — Admin panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">YaGuy Admin</div>
+        <ul>
+          <li><a href="index.html">Public site</a></li>
+          <li><a class="button button-outline" href="#admin-login">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="form-page">
+    <div class="container admin-layout">
+      <section id="admin-login" class="form-card">
+        <h1>Admin access</h1>
+        <p class="helper-text">Enter the admin secret to access the internal queue. All actions are logged.</p>
+        <form>
+          <div class="field">
+            <label for="admin-email">Email</label>
+            <input id="admin-email" type="email" placeholder="admin@yaguy.com" required />
+          </div>
+          <div class="field">
+            <label for="admin-password">Password or token</label>
+            <input id="admin-password" type="password" placeholder="••••••••" required />
+          </div>
+          <button type="submit" class="button button-primary">Login</button>
+        </form>
+      </section>
+
+      <section class="table-card">
+        <div class="dashboard-header">
+          <div>
+            <h2>Queue</h2>
+            <p class="helper-text">Filter by status and click a row to open the full brief.</p>
+          </div>
+          <div class="tabs" role="tablist">
+            <button class="tab active" type="button">All</button>
+            <button class="tab" type="button">Received</button>
+            <button class="tab" type="button">In progress</button>
+            <button class="tab" type="button">Answered</button>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Price</th>
+              <th>Created</th>
+              <th>Due</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>#8F21</td>
+              <td>founder@stealth.dev</td>
+              <td>Hardening our custody stack</td>
+              <td><span class="status-badge status-in-progress">In progress</span></td>
+              <td>$99</td>
+              <td>Mar 26, 2025</td>
+              <td>Mar 26, 2025 18:00</td>
+            </tr>
+            <tr>
+              <td>#8F20</td>
+              <td>team@mlops.ai</td>
+              <td>LLM eval automation sanity check</td>
+              <td><span class="status-badge status-received">Received</span></td>
+              <td>$49</td>
+              <td>Mar 26, 2025</td>
+              <td>Mar 27, 2025 12:00</td>
+            </tr>
+            <tr>
+              <td>#8F19</td>
+              <td>cto@finops.xyz</td>
+              <td>Serverless vs containers for our batch workloads</td>
+              <td><span class="status-badge status-answered">Answered</span></td>
+              <td>$49</td>
+              <td>Mar 25, 2025</td>
+              <td>Mar 25, 2025 19:00</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="detail-card answer-section">
+        <div class="status-badge status-in-progress">In progress</div>
+        <h2>Hardening our custody stack</h2>
+        <div class="meta-row">
+          <span>Email: founder@stealth.dev</span>
+          <span>Urgent (6h)</span>
+          <span>Price: $99</span>
+        </div>
+        <p>
+          Custody stack currently relies on Fireblocks + in-house monitoring. We need to validate assumptions about MPC quorum and
+          create a remediation playbook for compromised operators.
+        </p>
+        <div class="field">
+          <label for="status">Status</label>
+          <select id="status">
+            <option>Received</option>
+            <option selected>In progress</option>
+            <option>Answered</option>
+            <option>Cancelled</option>
+            <option>Refunded</option>
+          </select>
+        </div>
+        <div class="answer-editor">
+          <label for="answer">Answer (Markdown)</label>
+          <textarea id="answer" placeholder="## TL;DR\n..."></textarea>
+          <div class="hero-actions">
+            <button class="button button-outline" type="button">Save Draft</button>
+            <button class="button button-outline" type="button">Preview</button>
+            <button class="button button-primary" type="button">Publish Answer</button>
+          </div>
+          <p class="helper-text">Publishing sets status to answered, timestamps delivery, and emails the user.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="mailto:hello@yaguy.com">Contact</a>
+      </div>
+      <p>Not financial or legal advice. For informational purposes only.</p>
+    </div>
+  </footer>
+</body>
+</html>

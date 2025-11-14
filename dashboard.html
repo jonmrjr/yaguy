@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Track your Ask YaGuy questions and answers." />
+  <title>Ask YaGuy — Your dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">YaGuy</div>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="ask.html">Ask</a></li>
+          <li><a class="button button-outline" href="#">Logout</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="form-page">
+    <div class="container dashboard-card">
+      <div class="dashboard-header">
+        <div>
+          <h1>Your questions</h1>
+          <p class="helper-text">Track open and answered questions. Click into a question to read the full answer.</p>
+        </div>
+        <div class="tabs" role="tablist">
+          <button class="tab active" type="button">All</button>
+          <button class="tab" type="button">Open</button>
+          <button class="tab" type="button">Answered</button>
+        </div>
+      </div>
+
+      <div class="question-list">
+        <article class="question-card">
+          <div class="status-badge status-received">Received</div>
+          <h3>Deploying a crypto payments flow for SaaS</h3>
+          <div class="meta-row">
+            <span>Created: Mar 26, 2025</span>
+            <span>Due: Mar 27, 2025</span>
+            <span>Urgency: Standard</span>
+          </div>
+          <a class="button button-outline" href="question.html">View details</a>
+        </article>
+
+        <article class="question-card">
+          <div class="status-badge status-in-progress">In progress</div>
+          <h3>How should we harden our LLM fine-tuning pipeline?</h3>
+          <div class="meta-row">
+            <span>Created: Mar 25, 2025</span>
+            <span>Due: Mar 26, 2025</span>
+            <span>Urgency: Urgent</span>
+          </div>
+          <a class="button button-outline" href="question.html">View details</a>
+        </article>
+
+        <article class="question-card">
+          <div class="status-badge status-answered">Answered</div>
+          <h3>Is our event-driven architecture sane at 1M daily jobs?</h3>
+          <div class="meta-row">
+            <span>Asked: Mar 18, 2025</span>
+            <span>Answered: Mar 19, 2025</span>
+            <span>Urgency: Standard</span>
+          </div>
+          <a class="button button-primary" href="question.html">Read answer</a>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="mailto:hello@yaguy.com">Contact</a>
+      </div>
+      <p>Not financial or legal advice. For informational purposes only.</p>
+    </div>
+  </footer>
+</body>
+</html>
