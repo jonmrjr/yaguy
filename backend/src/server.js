@@ -15,10 +15,17 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(helmet());
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:8000',
+
+// CORS - allow all origins in production (since frontend is on same domain)
+// In development, allow localhost:8000
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production'
+    ? true  // Allow same origin in production
+    : (process.env.FRONTEND_URL || 'http://localhost:8000'),
   credentials: true
-}));
+};
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -42,6 +49,17 @@ app.use('/api/auth/register', authLimiter);
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
+// Serve static frontend files (for production deployment)
+// In production, serve the frontend from the parent directory
+if (process.env.NODE_ENV === 'production' || process.env.SERVE_FRONTEND === 'true') {
+  const frontendPath = path.join(__dirname, '../../');
+  app.use(express.static(frontendPath, {
+    index: 'index.html',
+    extensions: ['html']
+  }));
+  console.log(`📁 Serving frontend from: ${frontendPath}`);
+}
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -59,9 +77,14 @@ app.post('/api/webhooks/stripe', express.raw({ type: 'application/json' }), (req
   res.json({ received: true });
 });
 
-// 404 handler
+// 404 handler - return JSON for API routes, otherwise 404
 app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+  // If it's an API route, return JSON error
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'API route not found' });
+  }
+  // For other routes, return 404 (frontend will handle routing)
+  res.status(404).send('Not found');
 });
 
 // Error handler

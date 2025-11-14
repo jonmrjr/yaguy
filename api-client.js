@@ -3,7 +3,15 @@
  * Frontend JavaScript library for interacting with the backend API
  */
 
-const API_BASE_URL = 'http://localhost:3000/api';
+// Auto-detect API URL based on environment
+const API_BASE_URL = (() => {
+  // If running locally (localhost:8000), use local backend
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return 'http://localhost:3000/api';
+  }
+  // In production (Railway), API is on same origin
+  return window.location.origin + '/api';
+})();
 
 // Utility to get auth token from localStorage
 function getToken() {
