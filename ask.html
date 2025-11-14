@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="api-client.js"></script>
 </head>
 <body>
   <header>
@@ -114,6 +115,44 @@
           priceOutput.textContent = '$49';
         }
       });
+    });
+
+    // Handle form submission
+    document.querySelector('form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const submitButton = e.target.querySelector('button[type="submit"]');
+      const originalText = submitButton.textContent;
+      submitButton.textContent = 'Submitting...';
+      submitButton.disabled = true;
+
+      const email = document.getElementById('email').value;
+      const title = document.getElementById('title').value;
+      const details = document.getElementById('details').value;
+      const urgency = document.querySelector('input[name="urgency"]:checked').value;
+
+      try {
+        const result = await YaGuyAPI.questions.submit({
+          email,
+          title,
+          details,
+          urgency
+        });
+
+        if (result.checkoutUrl) {
+          // Redirect to Stripe checkout
+          window.location.href = result.checkoutUrl;
+        } else {
+          alert(result.error || 'Failed to submit question');
+          submitButton.textContent = originalText;
+          submitButton.disabled = false;
+        }
+      } catch (error) {
+        console.error('Submission error:', error);
+        alert('Failed to submit question. Please try again.');
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+      }
     });
   </script>
 </body>
