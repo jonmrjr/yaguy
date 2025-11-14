@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="api-client.js"></script>
 </head>
 <body>
   <header>
@@ -144,5 +145,179 @@
       <p>Not financial or legal advice. For informational purposes only.</p>
     </div>
   </footer>
+
+  <script>
+    let currentFilter = '';
+    let allQuestions = [];
+    let selectedQuestion = null;
+
+    // Check if user is logged in and is admin
+    function checkAuth() {
+      const user = YaGuyAPI.auth.getCurrentUser();
+      if (user && user.role === 'admin') {
+        document.getElementById('admin-login').style.display = 'none';
+        loadQuestions();
+        loadStats();
+      } else {
+        document.querySelector('.table-card').style.display = 'none';
+        document.querySelector('.detail-card').style.display = 'none';
+      }
+    }
+
+    // Load dashboard stats
+    async function loadStats() {
+      try {
+        const result = await YaGuyAPI.admin.getStats();
+        console.log('Dashboard stats:', result.stats);
+      } catch (error) {
+        console.error('Failed to load stats:', error);
+      }
+    }
+
+    // Load questions
+    async function loadQuestions(status = '') {
+      try {
+        const filters = status ? { status } : {};
+        const result = await YaGuyAPI.admin.getAllQuestions(filters);
+        allQuestions = result.questions || [];
+        renderQuestions();
+      } catch (error) {
+        console.error('Failed to load questions:', error);
+        alert('Failed to load questions');
+      }
+    }
+
+    // Render questions table
+    function renderQuestions() {
+      const tbody = document.querySelector('tbody');
+      tbody.innerHTML = '';
+
+      if (allQuestions.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No questions found</td></tr>';
+        return;
+      }
+
+      allQuestions.forEach(q => {
+        const row = document.createElement('tr');
+        row.style.cursor = 'pointer';
+        row.onclick = () => selectQuestion(q.id);
+
+        const statusClass = q.status.replace('_', '-');
+        const price = (q.price_cents / 100).toFixed(2);
+        const created = new Date(q.created_at).toLocaleDateString();
+        const due = new Date(q.due_date).toLocaleString();
+
+        row.innerHTML = `
+          <td>#${q.id.substring(0, 4)}</td>
+          <td>${q.email}</td>
+          <td>${q.title}</td>
+          <td><span class="status-badge status-${statusClass}">${q.status}</span></td>
+          <td>$${price}</td>
+          <td>${created}</td>
+          <td>${due}</td>
+        `;
+
+        tbody.appendChild(row);
+      });
+    }
+
+    // Select and display a question
+    async function selectQuestion(id) {
+      try {
+        const result = await YaGuyAPI.questions.getQuestion(id);
+        selectedQuestion = result.question;
+
+        const detailCard = document.querySelector('.detail-card');
+        detailCard.style.display = 'block';
+
+        const statusClass = selectedQuestion.status.replace('_', '-');
+        const price = (selectedQuestion.price_cents / 100).toFixed(2);
+
+        detailCard.querySelector('.status-badge').className = `status-badge status-${statusClass}`;
+        detailCard.querySelector('.status-badge').textContent = selectedQuestion.status;
+        detailCard.querySelector('h2').textContent = selectedQuestion.title;
+        detailCard.querySelector('.meta-row').innerHTML = `
+          <span>Email: ${selectedQuestion.email}</span>
+          <span>${selectedQuestion.urgency === 'urgent' ? 'Urgent (6h)' : 'Standard (24h)'}</span>
+          <span>Price: $${price}</span>
+        `;
+        detailCard.querySelector('p').textContent = selectedQuestion.details;
+        detailCard.querySelector('#status').value = selectedQuestion.status;
+        detailCard.querySelector('#answer').value = selectedQuestion.answer_text || '';
+      } catch (error) {
+        console.error('Failed to load question:', error);
+        alert('Failed to load question details');
+      }
+    }
+
+    // Handle admin login
+    document.querySelector('#admin-login form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('admin-email').value;
+      const password = document.getElementById('admin-password').value;
+
+      try {
+        const result = await YaGuyAPI.auth.login(email, password);
+        if (result.token) {
+          checkAuth();
+        } else {
+          alert(result.error || 'Login failed');
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        alert('Login failed');
+      }
+    });
+
+    // Handle status change
+    document.getElementById('status').addEventListener('change', async (e) => {
+      if (!selectedQuestion) return;
+
+      try {
+        await YaGuyAPI.admin.updateQuestionStatus(selectedQuestion.id, e.target.value);
+        alert('Status updated');
+        loadQuestions(currentFilter);
+      } catch (error) {
+        console.error('Failed to update status:', error);
+        alert('Failed to update status');
+      }
+    });
+
+    // Handle publish answer
+    document.querySelector('.button-primary').addEventListener('click', async () => {
+      if (!selectedQuestion) return;
+
+      const answer = document.getElementById('answer').value;
+      if (!answer.trim()) {
+        alert('Please enter an answer');
+        return;
+      }
+
+      try {
+        await YaGuyAPI.admin.publishAnswer(selectedQuestion.id, answer);
+        alert('Answer published and email sent!');
+        loadQuestions(currentFilter);
+        selectQuestion(selectedQuestion.id);
+      } catch (error) {
+        console.error('Failed to publish answer:', error);
+        alert('Failed to publish answer');
+      }
+    });
+
+    // Handle tab filtering
+    document.querySelectorAll('.tab').forEach((tab, index) => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const filters = ['', 'received', 'in_progress', 'answered'];
+        currentFilter = filters[index];
+        loadQuestions(currentFilter);
+      });
+    });
+
+    // Initialize
+    checkAuth();
+  </script>
 </body>
 </html>
